@@ -1,0 +1,130 @@
+import { useCallback } from "react";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  useAnimation,
+} from "motion/react";
+import { SwipeCard } from "@/types";
+import SwipeButtons from "@/components/SwipeButtons";
+
+import styles from "./Card.module.scss";
+
+type Card = {
+  id: string;
+};
+
+type CardProps = {
+  card: SwipeCard;
+  cards: SwipeCard[];
+  index: number;
+  isFront?: boolean;
+  setCards: React.Dispatch<React.SetStateAction<SwipeCard[]>>;
+  onSwipeLeft: (card: SwipeCard) => void;
+  onSwipeRight: (card: SwipeCard) => void;
+  onLoadNext?: () => void;
+  onLastItemSwiped?: () => void;
+};
+
+const Card: React.FC<CardProps> = ({
+  card,
+  cards,
+  index,
+  setCards,
+  onSwipeLeft,
+  onSwipeRight,
+  onLoadNext,
+  onLastItemSwiped,
+}) => {
+  const x = useMotionValue(0);
+
+  const animation = useAnimation();
+
+  const isFront = card.id === cards[cards.length - 1].id;
+
+  const { id, image } = card;
+
+  const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
+  const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
+
+  const rotate = useTransform(() => {
+    const offset = isFront ? 0.0001 : index % 2 ? 6 : -6;
+
+    return `${rotateRaw.get() + offset}deg`;
+  });
+
+  const handleDragEnd = useCallback(() => {
+    if (Math.abs(x.get()) > 100) {
+      if (x.get() > 0) {
+        onSwipeRight(card);
+      } else {
+        onSwipeLeft(card);
+      }
+
+      if (cards.length === 1 && onLastItemSwiped) {
+        onLastItemSwiped();
+      }
+
+      setCards((pv) => pv.filter((v) => v.id !== id));
+    }
+  }, [
+    x,
+    onSwipeLeft,
+    onSwipeRight,
+    setCards,
+    onLastItemSwiped,
+    cards.length,
+    id,
+  ]);
+
+  const onSwipe = useCallback(
+    (direction: number) => {
+      animation.start({
+        x: direction > 0 ? 150 : -150,
+      });
+    },
+    [animation]
+  );
+
+  return (
+    <div className={styles.container}>
+      <motion.img
+        src={image || ""}
+        alt="Placeholder alt"
+        className={styles.card__image}
+        style={{
+          x,
+          opacity,
+          rotate,
+          transition: "0.125s transform",
+          boxShadow: isFront
+            ? "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
+            : undefined,
+          scale: isFront ? 1 : 0.98,
+        }}
+        drag={isFront ? "x" : false}
+        dragConstraints={{
+          left: 0,
+          right: 0,
+        }}
+        transition={{
+          duration: 0.22,
+        }}
+        animate={animation}
+        onDragEnd={handleDragEnd}
+        onAnimationComplete={handleDragEnd}
+      />
+
+      {isFront && (
+        <SwipeButtons
+          className={styles.swipe__buttons}
+          onReject={onSwipe.bind(this, -1)}
+          onResolve={onSwipe.bind(this, 1)}
+          onReload={onLoadNext}
+        />
+      )}
+    </div>
+  );
+};
+
+export default Card;

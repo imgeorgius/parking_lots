@@ -1,0 +1,36 @@
+.controls__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filters__row {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: left;
+}
+
+.nofound__cell {
+  text-align: center !important;
+}
+
+.table__image {
+  width: 70px;
+  cursor: pointer;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__image {
+    max-height: 50%;
+    max-width: 50%;
+    outline: none;
+    position: relative;
+  }
+}

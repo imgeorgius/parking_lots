@@ -1,0 +1,21 @@
+.card__image {
+  border-radius: 0.5rem;
+  transform-origin: bottom;
+  width: 25rem;
+  height: 33rem;
+  object-fit: cover;
+  background-color: rgb(255 255 255);
+}
+
+.container {
+  display: inline;
+  width: 25rem;
+  height: 40rem;
+  transform-origin: bottom;
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.swipe__buttons {
+  margin-top: 40px;
+}
