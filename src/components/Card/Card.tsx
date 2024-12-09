@@ -39,7 +39,7 @@ const Card: React.FC<CardProps> = ({
 
   const isFront = card.id === cards[cards.length - 1].id;
 
-  const { id, image } = card;
+  const { id, image, title, description } = card;
 
   const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
   const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
@@ -85,9 +85,8 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <div className={styles.container}>
-      <motion.img
-        src={image || ""}
-        className={styles.card__image}
+      <motion.div
+        className={styles.card}
         style={{
           x,
           opacity,
@@ -109,7 +108,14 @@ const Card: React.FC<CardProps> = ({
         animate={animation}
         onDragEnd={handleDragEnd}
         onAnimationComplete={handleDragEnd}
-      />
+      >
+        <img src={image || ""} className={styles.card__image} />
+
+        <div className={styles.card__content}>
+          <h6 className={styles.card__title}>{title}</h6>
+          {description && <p className={styles.card__description}>{description}</p>}
+        </div>
+      </motion.div>
 
       {isFront && (
         <SwipeButtons

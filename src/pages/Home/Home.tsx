@@ -32,10 +32,11 @@ const Home = () => {
 
   const cardsLots = useMemo(
     (): SwipeCard[] =>
-      data?.getAllParkingLots?.map(({ id, image, name }) => ({
+      data?.getAllParkingLots?.map(({ id, image, name, address }) => ({
         id,
         image,
-        name,
+        title: name,
+        description: address,
       })) || [],
     [data?.getAllParkingLots]
   );
