@@ -9,7 +9,9 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = ({ Component }) => (
   <div className={styles.layout}>
     <Header className={styles.layout__header} />
-    <Component />
+    <main>
+      <Component />
+    </main>
   </div>
 );
 

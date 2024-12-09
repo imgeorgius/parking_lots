@@ -2,7 +2,8 @@ import { useCallback, useMemo } from "react";
 import { useQuery, gql } from "@apollo/client";
 import SwipeCards from "@/components/SwipeCards/SwipeCards";
 import { Lot } from "@/generated/graphql";
-import { SwipeCard } from "@/types";
+
+import { LotDragDirection, SwipeCard } from "@/types/Lots";
 import {
   addAcceptedLot,
   rejectAcceptedLot,
@@ -11,11 +12,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "@/store";
-
-enum DragDirection {
-  LEFT = "LEFT",
-  RIGHT = "RIGHT",
-}
 
 const GET_PARKING_LOTS = gql`
   query GetAllParkingLots($limit: Int, $offset: Int) {
@@ -63,13 +59,13 @@ const Home = () => {
   );
 
   const onDrag = useCallback(
-    (direction: DragDirection, card: SwipeCard) => {
+    (direction: LotDragDirection, card: SwipeCard) => {
       const lot = getLot(card.id);
 
       if (lot) {
-        if (direction === DragDirection.RIGHT) {
+        if (direction === LotDragDirection.RIGHT) {
           dispatch(addAcceptedLot(lot));
-        } else if (direction === DragDirection.LEFT) {
+        } else if (direction === LotDragDirection.LEFT) {
           dispatch(rejectAcceptedLot(lot));
         }
       }
@@ -84,8 +80,8 @@ const Home = () => {
   return (
     <SwipeCards
       cards={cardsLots}
-      onDragLeft={onDrag.bind(this, DragDirection.LEFT)}
-      onDragRight={onDrag.bind(this, DragDirection.RIGHT)}
+      onDragLeft={onDrag.bind(this, LotDragDirection.LEFT)}
+      onDragRight={onDrag.bind(this, LotDragDirection.RIGHT)}
       onLastItemSwiped={onLoadNextLots}
       loading={loading}
       error={!!error}

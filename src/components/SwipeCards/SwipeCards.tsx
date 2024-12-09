@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
-import { SwipeCard } from "@/types";
+
+import { SwipeCard } from "@/types/Lots";
 import Card from "@/components/Card";
 
 import styles from "./SwipeCards.module.scss";

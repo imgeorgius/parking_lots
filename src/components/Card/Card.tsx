@@ -5,14 +5,11 @@ import {
   useTransform,
   useAnimation,
 } from "motion/react";
-import { SwipeCard } from "@/types";
+
+import { LotDragDirection, SwipeCard } from "@/types/Lots";
 import SwipeButtons from "@/components/SwipeButtons";
 
 import styles from "./Card.module.scss";
-
-type Card = {
-  id: string;
-};
 
 type CardProps = {
   card: SwipeCard;
@@ -78,9 +75,9 @@ const Card: React.FC<CardProps> = ({
   ]);
 
   const onSwipe = useCallback(
-    (direction: number) => {
+    (direction: LotDragDirection) => {
       animation.start({
-        x: direction > 0 ? 150 : -150,
+        x: direction === LotDragDirection.RIGHT ? 150 : -150,
       });
     },
     [animation]
@@ -90,7 +87,6 @@ const Card: React.FC<CardProps> = ({
     <div className={styles.container}>
       <motion.img
         src={image || ""}
-        alt="Placeholder alt"
         className={styles.card__image}
         style={{
           x,
@@ -118,8 +114,8 @@ const Card: React.FC<CardProps> = ({
       {isFront && (
         <SwipeButtons
           className={styles.swipe__buttons}
-          onReject={onSwipe.bind(this, -1)}
-          onResolve={onSwipe.bind(this, 1)}
+          onReject={onSwipe.bind(this, LotDragDirection.LEFT)}
+          onResolve={onSwipe.bind(this, LotDragDirection.RIGHT)}
           onReload={onLoadNext}
         />
       )}

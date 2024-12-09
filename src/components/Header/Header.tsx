@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   const goBack = () => navigate(-1);
 
   return (
-    <div className={classNames(styles.header, className)}>
+    <header className={classNames(styles.header, className)}>
       {isHome ? (
         <Link to="/">
           <IconButton size="large">
@@ -34,14 +34,14 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         </IconButton>
       )}
 
-      <img src={logo} alt="Wemolo" className={styles.header__logo} />
+      <img src={logo} className={styles.header__logo} alt="Wemolo" />
 
       <Link to="/summary">
         <IconButton size="large">
           <List />
         </IconButton>
       </Link>
-    </div>
+    </header>
   );
 };
 
