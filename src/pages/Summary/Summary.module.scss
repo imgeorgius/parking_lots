@@ -62,7 +62,7 @@
   .filters {
     &__button {
       &--toggle {
-        display: flex;
+        display: flex !important;
 
         > button {
           width: 100%;
