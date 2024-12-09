@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import SwipeCards from "@/components/SwipeCards/SwipeCards";
 import { Lot } from "@/generated/graphql";
 
@@ -12,20 +12,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "@/store";
-
-const GET_PARKING_LOTS = gql`
-  query GetAllParkingLots($limit: Int, $offset: Int) {
-    getAllParkingLots(limit: $limit, offset: $offset) {
-      id
-      address
-      image
-      name
-      name
-      size
-      status
-    }
-  }
-`;
+import { GET_PARKING_LOTS } from "@/graphql/queries/lots";
 
 const LIMIT = 5;
 
