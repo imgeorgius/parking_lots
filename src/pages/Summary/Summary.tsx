@@ -13,6 +13,7 @@ import {
   ToggleButton,
   Modal,
   Fade,
+  Box,
 } from "@mui/material";
 
 import { Lot, Maybe } from "@/generated/graphql";
@@ -88,20 +89,27 @@ const Summary = () => {
 
   return (
     <>
-      <div className={styles.controls__head}>
-        <ToggleButtonGroup
-          color="primary"
-          value={lotStatus}
-          exclusive
-          onChange={(_event, value) => setLotStatus(value)}
-          aria-label="Platform"
-        >
-          <ToggleButton value={LotStatus.ACCEPTED}>Accepted</ToggleButton>
-          <ToggleButton value={LotStatus.REJECTED}>Rejected</ToggleButton>
-        </ToggleButtonGroup>
+      <div className={styles.filters}>
+        <div className={styles.filters__left}>
+          <ToggleButtonGroup
+            className={styles["filters__button--toggle"]}
+            color="primary"
+            value={lotStatus}
+            exclusive
+            onChange={(_event, value) => setLotStatus(value)}
+            aria-label="Platform"
+          >
+            <ToggleButton value={LotStatus.ACCEPTED}>Accepted</ToggleButton>
+            <ToggleButton value={LotStatus.REJECTED}>Rejected</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
 
-        <div className={styles.filters__row}>
-          <Button variant="contained" onClick={onResetFilters}>
+        <div className={styles.filters__right}>
+          <Button
+            className={styles["filters__button--reset"]}
+            variant="contained"
+            onClick={onResetFilters}
+          >
             Reset
           </Button>
           <Select
@@ -139,64 +147,66 @@ const Summary = () => {
         </div>
       </div>
 
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Image</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Address</TableCell>
-            <TableCell>Size</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {lotsFiltered.length > 0 ? (
-            lotsFiltered.map((lot) => (
-              <TableRow key={lot.id}>
-                <TableCell component="th" scope="row">
-                  {lot.image && (
-                    <img
-                      className={styles.table__image}
-                      src={lot.image}
-                      onClick={() => onSetCurrentModalImage(lot.image)}
-                    />
-                  )}
-                </TableCell>
-                <TableCell>{lot.name}</TableCell>
-                <TableCell>{lot.address}</TableCell>
-                <TableCell>{lot.size}</TableCell>
-                <TableCell>
-                  {lotStatus === LotStatus.REJECTED ? (
-                    <Button
-                      size="small"
-                      variant="contained"
-                      color="success"
-                      onClick={() => onAcceptLot(lot)}
-                    >
-                      Accept
-                    </Button>
-                  ) : (
-                    <Button
-                      size="small"
-                      variant="contained"
-                      color="error"
-                      onClick={() => onRejectLot(lot)}
-                    >
-                      Reject
-                    </Button>
-                  )}
+      <Box className={styles.table__wrap}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Image</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>Size</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {lotsFiltered.length > 0 ? (
+              lotsFiltered.map((lot) => (
+                <TableRow key={lot.id}>
+                  <TableCell component="th" scope="row">
+                    {lot.image && (
+                      <img
+                        className={styles.table__image}
+                        src={lot.image}
+                        onClick={() => onSetCurrentModalImage(lot.image)}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell>{lot.name}</TableCell>
+                  <TableCell>{lot.address}</TableCell>
+                  <TableCell>{lot.size}</TableCell>
+                  <TableCell>
+                    {lotStatus === LotStatus.REJECTED ? (
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="success"
+                        onClick={() => onAcceptLot(lot)}
+                      >
+                        Accept
+                      </Button>
+                    ) : (
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="error"
+                        onClick={() => onRejectLot(lot)}
+                      >
+                        Reject
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell className={styles.nofound__cell} colSpan={6}>
+                  No items found
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell className={styles.nofound__cell} colSpan={6}>
-                No items found
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      </Box>
 
       <Modal
         open={isModalOpen}
