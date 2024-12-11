@@ -14,7 +14,7 @@ import {
 } from "@/store";
 import { GET_PARKING_LOTS } from "@/graphql/queries/lots";
 
-const LIMIT = 5;
+const LOTS_LIMIT = 5;
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ const Home = () => {
     getAllParkingLots: Lot[];
   }>(GET_PARKING_LOTS, {
     variables: {
-      limit: LIMIT,
+      limit: LOTS_LIMIT,
       offset,
     },
     notifyOnNetworkStatusChange: true,
