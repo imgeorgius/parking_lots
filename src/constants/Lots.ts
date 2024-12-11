@@ -35,3 +35,8 @@ export const sortOptions: SortOption[] = [
   { value: Sort.SIZE_ASC, label: "Size: Ascending" },
   { value: Sort.SIZE_DESC, label: "Size: Descending" },
 ];
+
+export enum LotStatus {
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+}

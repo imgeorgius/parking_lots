@@ -1,0 +1,33 @@
+.table {
+  &__wrap {
+    overflow: auto;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    &__wrap {
+      position: relative;
+      width: 70px;
+      height: 50px;
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    &__icon {
+      position: absolute;
+      width: 10px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+    }
+  }
+}
+
+.nofound__cell {
+  text-align: center !important;
+}

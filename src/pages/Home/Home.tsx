@@ -62,7 +62,7 @@ const Home = () => {
   );
 
   const onLoadNextLots = useCallback(() => {
-    dispatch(setOffset(offset + LIMIT));
+    dispatch(setOffset(offset + LOTS_LIMIT));
   }, [dispatch, offset]);
 
   return (
